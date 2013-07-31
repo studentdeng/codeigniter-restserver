@@ -41,6 +41,20 @@ abstract class CUREST_Controller extends REST_Controller
 
         return $paramValues;
     }
+    
+    public function gets_defaults($defaultParams)
+    {
+        $paramInput = array();
+        foreach ($defaultParams as $key => $value)
+        {
+            if ($this->get($key) !== FALSE)
+            {
+                $paramInput[$key] = $this->get($key);
+            }
+        }
+        
+        return array_merge($defaultParams, $paramInput);
+    }
 
     public function posts($inputParam, $xss_clean = TRUE)
     {
@@ -58,6 +72,20 @@ abstract class CUREST_Controller extends REST_Controller
         }
 
         return $paramValues;
+    }
+    
+    public function posts_defaults($defaultParams)
+    {
+        $paramInput = array();
+        foreach ($defaultParams as $key => $value)
+        {
+            if ($this->post($key) !== FALSE)
+            {
+                $paramInput[$key] = $this->post($key);
+            }
+        }
+        
+        return array_merge($defaultParams, $paramInput);
     }
 
     public function getWithDefaultValue($key, $defaultValue)
@@ -193,4 +221,8 @@ abstract class CUREST_Controller extends REST_Controller
         $this->responseSuccess(array('list' => $array));
     }
 
+    public function responseBool($result)
+    {
+        $result ? $this->responseSuccess() : $this->serverError('data server error');
+    }
 }
