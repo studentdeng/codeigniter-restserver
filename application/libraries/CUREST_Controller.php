@@ -41,7 +41,7 @@ abstract class CUREST_Controller extends REST_Controller
 
         return $paramValues;
     }
-    
+
     public function gets_defaults($defaultParams)
     {
         $paramInput = array();
@@ -52,7 +52,7 @@ abstract class CUREST_Controller extends REST_Controller
                 $paramInput[$key] = $this->get($key);
             }
         }
-        
+
         return array_merge($defaultParams, $paramInput);
     }
 
@@ -73,7 +73,7 @@ abstract class CUREST_Controller extends REST_Controller
 
         return $paramValues;
     }
-    
+
     public function posts_defaults($defaultParams)
     {
         $paramInput = array();
@@ -84,7 +84,7 @@ abstract class CUREST_Controller extends REST_Controller
                 $paramInput[$key] = $this->post($key);
             }
         }
-        
+
         return array_merge($defaultParams, $paramInput);
     }
 
@@ -225,4 +225,22 @@ abstract class CUREST_Controller extends REST_Controller
     {
         $result ? $this->responseSuccess() : $this->serverError('data server error');
     }
+
+    public function responseDecorateArray($array, $option = array())
+    {
+        $result = array();
+
+        foreach ($array as $item)
+        {
+            $result[] = $this->decorate($item, $option);
+        }
+
+        return $this->responseArray($result);
+    }
+
+    public function decorate($item, $option)
+    {
+        return $item;
+    }
+
 }
